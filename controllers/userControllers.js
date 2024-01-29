@@ -13,6 +13,8 @@ exports.postRegister = async (req, res) => {
     console.log("Inside Register API");
 
     try {
+        const checkUser = await User.findOne({ email });
+
         const user = await User.create({
             fullname,
             email,
@@ -23,6 +25,13 @@ exports.postRegister = async (req, res) => {
             return res.status(500).json({
                 success:false,
                 message:"User registration failed!"
+            });
+        }
+
+        if(checkUser){
+            return res.status(500).json({
+                success:false,
+                message:"Email already exist!"
             });
         }
 

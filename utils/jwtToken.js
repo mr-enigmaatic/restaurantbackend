@@ -8,6 +8,7 @@ exports.getToken = (req,res)=> {
     }
 
     const token = jwt.sign(options,process.env.JWT_SECRET_KEY,{expiresIn:'30min'});
+    const cookieParams = { httpOnly: true, sameSite: "none", secure: true };
 
     if(!token) {
         return res.status(500).json({
@@ -17,7 +18,7 @@ exports.getToken = (req,res)=> {
         })
     }
 
-    res.status(200).cookie("token",token).json({
+    res.status(200).cookie("token",token,cookieParams).json({
         success:true,
         user:req.user,
         token,
