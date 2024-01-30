@@ -21,6 +21,7 @@ exports.postRegister = async (req, res) => {
             password: hashedPass
         });
 
+
         if(!user){
             return res.status(500).json({
                 success:false,

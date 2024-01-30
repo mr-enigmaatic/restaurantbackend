@@ -12,6 +12,8 @@ exports.addRestaurant = async (req,res)=>{
             neighborhood,
             photograph
         })
+
+        // const restaurants = await Restaurant.find();
     
         if(!restaurant){
             return res.status(500).json({
@@ -23,7 +25,8 @@ exports.addRestaurant = async (req,res)=>{
         res.status(201).json({
             success:true,
             message:"Restaurant registration successfully completed",
-            restaurant
+            restaurant,
+            // restaurants
         })
 
     } catch (error) {
@@ -61,3 +64,36 @@ exports.getRestaurants = async (req,res)=>{
     }
 
 }
+
+exports.deleteRestaurant = async (req,res) => {
+
+    const {id} = req.params;
+
+    try {
+        
+        const restaurant = await Restaurant.findByIdAndDelete(id);
+        // const restaurants = await Restaurant.find();
+
+        if(!restaurant){
+            return res.status(404).json({
+                success:false,
+                message:"Restaurant Not Found!",
+            });
+        }
+
+        res.status(200).json({
+            success:true,
+            message:"Restaurant deleted successfully!",
+            restaurant
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        });
+    }
+
+}
+
+
